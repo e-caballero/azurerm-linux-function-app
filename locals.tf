@@ -1,24 +1,33 @@
 
-  #Standard tags, naming convention and shared variables to load and use in the module
+#Standard tags, naming convention and shared variables to load and use in the module
 
-  #shared variables 
-  #module "shared_vars" {
-  #  source      = "git::https://dev.azure.com/company/company-terraform/_git/azure-shared-vars?ref=v1"
-  #  location    = var.location
-  #  environment = var.environment
-  #}
+#shared variables 
+#module "shared_vars" {
+#  source      = "git::https://dev.azure.com/company/company-terraform/_git/azure-shared-vars?ref=v1"
+#  location    = var.location
+#  environment = var.environment
+#}
 
 
-  locals {
-    common_tags = merge(local.standard_tags, var.additional_tags)
-    standard_tags = {
-      "ApplicationName"    = var.app_name
-      "Project"     = var.project
-      "Description"     = var.description
-      "Environment"   = var.environment
-      "OwnerEmail"       = var.owner_email
-      "AlertEmail"  = var.alert_email
-      "External"  = var.external
-    }
-  #resource naming convention 
-linux_function_name = "${var.app_name}-${var.environment}-${var.location}-linux-${var.index}"
+locals {
+  common_tags = merge(local.standard_tags, var.additional_tags)
+  standard_tags = {
+    "Project"                       = var.project
+    "Description"                   = var.description
+    "Environment"                   = var.environment
+    "External"                      = var.external
+    "CostCenter"                    = var.cost_center
+    "Compliance"                    = var.compliance
+    "ApplicationID"                 = var.application_id
+    "ApplicationOwner"              = var.application_owner
+    "ApplicationOwnerEmail"         = var.application_owner_email
+    "ApplicationTeam"               = var.application_team
+    "ApplicationTeamEmail"          = var.application_team_email
+    "ApplicationTeamSlack"          = var.application_team_slack
+    "ApplicationTeamMicrosoftTeams" = var.application_teams_channel
+  }
+
+#resource naming convention 
+linux_function_app_name = lower("${var.application_id}-${var.environment}-${var.location}-lwebapp-${var.count_number}")
+
+}

@@ -1,18 +1,14 @@
 variable "location" {
   description = "- (Required) The Azure Region where the Linux Function App should exist. Changing this forces a new Linux Function App to be created."
 }
-variable "name" {
-  description = "- (Required) The name which should be used for this Linux Function App. Changing this forces a new Linux Function App to be created. Limit the function name to 32 characters to avoid naming collisions. For more information about [Function App naming rule](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftweb) and [Host ID Collisions](https://github.com/Azure/azure-functions-host/wiki/Host-IDs#host-id-collisions)"
-}
+
 variable "resource_group_name" {
   description = "- (Required) The name of the Resource Group where the Linux Function App should exist. Changing this forces a new Linux Function App to be created."
 }
 variable "service_plan_id" {
   description = "- (Required) The ID of the App Service Plan within which to create this Function App."
 }
-variable "site_config" {
-  description = "- (Required) A `site_config` block as defined below."
-}
+
 variable "app_settings" {
 type = object({ 
    app_settings= string,  
@@ -561,3 +557,108 @@ default = {
 }
 
 }
+
+variable "repo_url" {
+type = string
+description = "(Required) The URL of the Git Repository."
+}
+
+variable "repo_branch" { 
+type = string
+description = "(Required) The Branch of the Git Repository to use. Defaults to `main`."
+}
+
+
+variable "application_id" {
+  description = "The application ID of the system as defined by the data classification process. Valid values for application_id are (APP-0001, APP-0002, APP-0003)."
+  type        = string
+  validation {
+    condition     = contains(["APP-0001", "APP-0002", "APP-0003"], var.application_id)
+    error_message = "Valid values for application_id are (APP-0001, APP-0002, APP-0003)."
+  }
+}
+variable "application_owner" {
+  description = "The application owner of the system as defined by the data classification process. Valid values for application_owner are (John Doe, Jane Doe, John Smith)."
+  type        = string
+  validation {
+    condition     = contains(["John Doe", "Jane Doe", "John Smith"], var.application_owner)
+    error_message = "Valid values for application_owner are (John Doe, Jane Doe, John Smith)."
+  }
+}
+variable "application_owner_email" {
+  description = "The application owner email of the system as defined by the data classification process. Valid values for application_owner_email are ( first.last@company.com)"
+  type        = string
+  validation {
+    condition     = can(regex("^[a-z,A-Z,.]{1,}@company.com$", var.application_owner_email))
+    error_message = "Valid values for application_owner_email are (first.last@company.com)"
+  }
+}
+variable "application_team" {
+  description = "The application team of the system as defined by the data classification process. Valid values for application_team are (Team 1, Team 2, Team 3)."
+  type        = string
+  validation {
+    condition     = contains(["Team 1", "Team 2", "Team 3"], var.application_team)
+    error_message = "Valid values for application_team are (Team 1, Team 2, Team 3)."
+  }
+}
+variable "application_team_email" {
+  description = "The application team email of the system as defined by the data classification process. Valid values for application_team_email are (team1@company.com)"
+  type        = string
+}
+variable "application_team_slack" {
+  description = "The application team slack of the system as defined by the data classification process. Valid values for application_team_slack are (https://app.slack.com/huddle/1234/123)"
+  type        = string
+  validation {
+    condition     = can(regex("^(https://app.slack.com/huddle/1234/123)$", var.application_team_slack))
+    error_message = "Valid values for application_team_slack are (https://app.slack.com/huddle/1234/123)"
+  }
+  default = "https://app.slack.com/huddle/1234/123"
+}
+variable "application_teams_channel" {
+  description = "The application team Microsoft Teams channel of the system as defined by the data classification process. Valid values for application_teams_channel are (https://teams.microsoft.com/l/channel/1234/123)"
+  type        = string
+  validation {
+    condition     = can(regex("^(https://teams.microsoft.com/l/channel/1234/123)$", var.application_teams_channel))
+    error_message = "Valid values for application_teams_channel are (https://teams.microsoft.com/l/channel/1234/123)"
+  }
+  default = "https://teams.microsoft.com/l/channel/1234/123"
+}
+variable "component_name" {
+  description = "The component name of the system as defined by the data classification process. Valid values for component_name are (component1, component2, component3)."
+  type        = string
+  validation {
+    condition     = contains(["component1", "component2", "component3"], var.component_name)
+    error_message = "Valid values for component_name are (component1, component2, component3)."
+  }
+}
+
+variable "project" {
+  description = "The project of the system as defined by the data classification process. Valid values for project are (project1, project2, project3)."
+  type        = string
+}
+
+variable "description" {
+  description = "The description of the system as defined by the data classification process. Valid values for description are (description1, description2, description3)."
+  type        = string
+  default = ""
+}
+
+variable "external" {
+  description = "The external of the system as defined by the data classification process. Valid values for external are (external1, external2, external3)."
+  type        = string
+}
+
+variable "cost_center" {
+  description = "The cost center of the system as defined by the data classification process. Valid values for cost_center are (cost_center1, cost_center2, cost_center3)."
+  type        = string
+}
+
+variable "compliance" {
+  description = "The compliance of the system as defined by the data classification process. Valid values for compliance are (compliance1, compliance2, compliance3)."
+  type        = string
+}
+variable "count_number" {
+  description = "The count number of the system as defined by the data classification process. Valid values for count_number are (count_number1, count_number2, count_number3)."
+  type        = string
+}
+
